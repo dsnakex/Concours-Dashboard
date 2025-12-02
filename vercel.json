@@ -1,5 +1,11 @@
 {
   "buildCommand": "npm run build",
   "framework": "nextjs",
-  "regions": ["cdg1"]
+  "regions": ["cdg1"],
+  "crons": [
+    {
+      "path": "/api/admin/ingest",
+      "schedule": "0 8 * * *"
+    }
+  ]
 }
