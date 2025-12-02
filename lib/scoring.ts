@@ -1,4 +1,5 @@
 import { Contest, ContestScore, IAAnalysis, UserSettings } from '@/types'
+import { callAI } from './ollama'
 
 // Configuration constants
 const SCORING_CONFIG = {
@@ -174,26 +175,11 @@ Retourne UNIQUEMENT du JSON:
 - Ajustement +30: Excellente opportunité`
 
   try {
-    // Call Ollama or Claude API
-    const response = await fetch(`${process.env.OLLAMA_API_URL}/api/generate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: SCORING_CONFIG.LLM_MODEL,
-        prompt,
-        stream: false,
-        temperature: 0,
-        num_predict: 200
-      }),
-      signal: AbortSignal.timeout(SCORING_CONFIG.LLM_TIMEOUT_MS)
-    })
+    // Call AI (Ollama or Claude)
+    const response = await callAI(prompt)
 
-    if (!response.ok) {
-      throw new Error(`Ollama error: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-    const analysis = JSON.parse(data.response)
+    // Parse JSON response
+    const analysis = JSON.parse(response)
 
     return {
       adjustment: analysis.adjustment || 0,
