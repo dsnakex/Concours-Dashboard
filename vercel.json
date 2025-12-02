@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "regions": ["cdg1"],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": {
+      "description": "URL de votre projet Supabase (https://xxx.supabase.co)",
+      "required": true
+    },
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": {
+      "description": "Clé anon public de Supabase (Settings → API)",
+      "required": true
+    },
+    "SUPABASE_SERVICE_ROLE_KEY": {
+      "description": "Clé service_role de Supabase (Settings → API)",
+      "required": true
+    },
+    "IA_MODEL": {
+      "description": "Modèle IA à utiliser (ollama ou claude)",
+      "value": "ollama"
+    },
+    "OLLAMA_API_URL": {
+      "description": "URL de l'API Ollama (localhost pour dev)",
+      "value": "http://localhost:11434"
+    },
+    "ENVIRONMENT": {
+      "description": "Environnement d'exécution",
+      "value": "production"
+    }
+  }
+}
