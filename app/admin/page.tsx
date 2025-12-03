@@ -20,14 +20,29 @@ export default function AdminPage() {
         }
       })
 
-      const data = await response.json()
+      // Vérifier si la réponse a du contenu
+      const text = await response.text()
+      console.log('Response status:', response.status)
+      console.log('Response text:', text)
+
+      if (!text) {
+        throw new Error('Réponse vide du serveur')
+      }
+
+      let data
+      try {
+        data = JSON.parse(text)
+      } catch (parseError) {
+        throw new Error(`Réponse invalide du serveur: ${text.substring(0, 100)}`)
+      }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors du scraping')
+        throw new Error(data.error || `Erreur HTTP ${response.status}`)
       }
 
       setResult(data)
     } catch (err: any) {
+      console.error('Scraping error:', err)
       setError(err.message)
     } finally {
       setLoading(false)

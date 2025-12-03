@@ -3,8 +3,19 @@ import { scrapeAllSources, scrapeSource, SCRAPERS } from '@/lib/scrapers'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { source } = body
+    // Parse body only if there's content
+    let source = null
+    const contentType = request.headers.get('content-type')
+
+    if (contentType?.includes('application/json')) {
+      try {
+        const body = await request.json()
+        source = body.source
+      } catch (e) {
+        // No body or invalid JSON, that's ok
+        console.log('No body in request, scraping all sources')
+      }
+    }
 
     let results
 
