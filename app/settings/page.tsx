@@ -41,10 +41,11 @@ export default function SettingsPage() {
       return
     }
     setUser(user)
-    fetchSettings(user.id)
+    fetchSettings(user)
   }
 
-  const fetchSettings = async (userId: string) => {
+  const fetchSettings = async (userObj: any) => {
+    const userId = userObj.id
     setLoading(true)
     try {
       const { data, error } = await supabase
@@ -58,7 +59,7 @@ export default function SettingsPage() {
         if (error.code === 'PGRST116') {
           const defaultSettings: UserSettings = {
             id: userId,
-            email: user.email || '',
+            email: userObj.email || '',
             name: '',
             phone: '',
             types_participation_affichees: ['direct', 'quiz', 'tirage'] as ParticipationType[],
